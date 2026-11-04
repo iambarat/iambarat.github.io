@@ -52,8 +52,40 @@
 
     <!-- The player appears here once you choose "Yes". -->
     <div id="player" hidden>
-      <div id="spotify-embed"></div>
-      <p class="player-note">Spotify plays full tracks if you're logged in with Premium, and short previews otherwise.</p>
+      <div class="now-playing">
+        <p class="np-label">now playing <span id="np-count"></span></p>
+        <p class="np-title" id="np-title"></p>
+        <p class="np-artist" id="np-artist"></p>
+
+        <div class="np-progress">
+          <span id="np-time">0:00</span>
+          <div class="np-bar" id="np-bar" role="slider" aria-label="Seek" tabindex="0"><div id="np-fill"></div></div>
+          <span id="np-dur">0:00</span>
+        </div>
+
+        <div class="np-controls">
+          <button class="np-btn" id="np-prev" type="button" aria-label="Previous song">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg>
+          </button>
+          <button class="np-btn np-play" id="np-toggle" type="button" aria-label="Play">
+            <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg>
+            <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
+          </button>
+          <button class="np-btn" id="np-next" type="button" aria-label="Next song">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg>
+          </button>
+        </div>
+
+        <!-- Spotify's own player does the actual playing; it sits under the controls. -->
+        <div id="spotify-embed"></div>
+      </div>
+
+      <div class="tracklist-wrap">
+        <p class="np-label" id="pl-name">playlist</p>
+        <ol class="tracklist" id="tracklist"></ol>
+      </div>
+
+      <p class="player-note">Spotify plays full tracks if you're logged in with Premium, and 30-second previews otherwise.</p>
     </div>
 
     <!-- ============ MUSIC ============ -->
@@ -102,41 +134,147 @@
   <div class="wrap">© <span id="year">2026</span> Mohaimin Al Barat</div>
 </footer>
 
+<!-- [EDIT F] YOUR PLAYLIST
+     The songs live in playlist.js. After you change the playlist on Spotify,
+     run  python3 update-playlist.py  in this folder, then commit and push. -->
+<script src="playlist.js"></script>
+
 <!-- Spotify's player script -->
 <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
 
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
 
-  /* ============================================================
-     [EDIT F] YOUR PLAYLIST
-     Open your playlist in Spotify → Share → Copy link. You'll get
-     something like https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M
-     Paste only the part after /playlist/ between the quotes below.
-     To use a single song instead of a playlist, paste the id from a
-     track link and change TYPE to "track".
-     ============================================================ */
-  var PLAYLIST_ID = "1BfTjBDeMFvSf0MVyojVtk?si=ecf6b43904924701";
-  var TYPE = "playlist";   // "playlist" or "track"
-
+  var tracks   = window.PLAYLIST.tracks;
   var prompt   = document.getElementById("music-prompt");
   var player   = document.getElementById("player");
   var embedBox = document.getElementById("spotify-embed");
+  var list     = document.getElementById("tracklist");
+  var bar      = document.getElementById("np-bar");
+  var toggle   = document.getElementById("np-toggle");
+
   var controller = null;
   var wantsMusic = false;
+  var current = 0;
+  var pendingPlay = false;   // play as soon as the newly loaded song is ready
+  var last = null;           // previous playback update, to notice when a song ends
+  var duration = 0;          // ms, as reported by Spotify (30000 for previews)
+
+  function uri(i) { return "spotify:track:" + tracks[i].id; }
+
+  function fmt(ms) {
+    var s = Math.floor(ms / 1000);
+    return Math.floor(s / 60) + ":" + ("0" + (s % 60)).slice(-2);
+  }
+
+  function setPaused(paused) {
+    toggle.classList.toggle("is-playing", !paused);
+    toggle.setAttribute("aria-label", paused ? "Play" : "Pause");
+  }
+
+  function showTrack() {
+    var t = tracks[current];
+    document.getElementById("np-title").textContent = t.title;
+    document.getElementById("np-artist").textContent = t.artist;
+    document.getElementById("np-count").textContent = "· " + (current + 1) + " / " + tracks.length;
+    document.getElementById("np-time").textContent = "0:00";
+    document.getElementById("np-dur").textContent = fmt(t.duration);
+    document.getElementById("np-fill").style.width = "0";
+    duration = 0;
+
+    var old = list.querySelector("[aria-current]");
+    if (old) old.removeAttribute("aria-current");
+    var row = list.children[current].firstChild;
+    row.setAttribute("aria-current", "true");
+    if (!player.hidden) row.scrollIntoView({ block: "nearest" });
+  }
+
+  function playTrack(i) {
+    current = (i + tracks.length) % tracks.length;
+    last = null;
+    showTrack();
+    if (!controller) return;
+    pendingPlay = true;
+    controller.loadUri(uri(current));
+    // In case Spotify doesn't send "ready" after loading the new song.
+    setTimeout(function () {
+      if (pendingPlay) { pendingPlay = false; controller.play(); }
+    }, 1500);
+  }
+
+  function onUpdate(e) {
+    var d = e.data;
+    if (d.duration) duration = d.duration;
+    setPaused(d.isPaused);
+    if (duration) {
+      document.getElementById("np-time").textContent = fmt(d.position);
+      document.getElementById("np-dur").textContent = fmt(duration);
+      document.getElementById("np-fill").style.width = Math.min(100, d.position / duration * 100) + "%";
+    }
+    // A song has ended when it was playing near the end and then stops or jumps back to 0.
+    if (last && !last.isPaused && last.duration && last.position > last.duration - 1500 &&
+        (d.isPaused || d.position < last.position)) {
+      last = null;
+      playTrack(current + 1);
+      return;
+    }
+    last = d;
+  }
+
+  // Build the playlist.
+  document.getElementById("pl-name").textContent = "playlist · " + window.PLAYLIST.name;
+  tracks.forEach(function (t, i) {
+    var li = document.createElement("li");
+    var b = document.createElement("button");
+    b.type = "button";
+    b.innerHTML = '<span class="tl-n"></span><span class="tl-main"><span class="tl-title"></span>' +
+                  '<span class="tl-artist"></span></span><span class="tl-dur"></span>';
+    b.querySelector(".tl-n").textContent = i + 1;
+    b.querySelector(".tl-title").textContent = t.title;
+    b.querySelector(".tl-artist").textContent = t.artist;
+    b.querySelector(".tl-dur").textContent = fmt(t.duration);
+    b.addEventListener("click", function () { playTrack(i); });
+    li.appendChild(b);
+    list.appendChild(li);
+  });
+  showTrack();
 
   // Spotify calls this once its script has loaded.
   window.onSpotifyIframeApiReady = function (IFrameAPI) {
-    if (!PLAYLIST_ID) return;
     IFrameAPI.createController(
       embedBox,
-      { uri: "spotify:" + TYPE + ":" + PLAYLIST_ID, width: "100%", height: 152 },
+      { uri: uri(current), width: "100%", height: 80 },
       function (ctrl) {
         controller = ctrl;
+        ctrl.addListener("ready", function () {
+          if (pendingPlay) { pendingPlay = false; ctrl.play(); }
+        });
+        ctrl.addListener("playback_update", onUpdate);
         if (wantsMusic) ctrl.play();   // they already said yes while it was loading
       }
     );
   };
+
+  toggle.addEventListener("click", function () { if (controller) controller.togglePlay(); });
+  document.getElementById("np-prev").addEventListener("click", function () {
+    // Like most players: restart the song if we're more than 3 seconds in.
+    if (controller && last && last.position > 3000) controller.seek(0);
+    else playTrack(current - 1);
+  });
+  document.getElementById("np-next").addEventListener("click", function () { playTrack(current + 1); });
+
+  function seekTo(fraction) {
+    if (controller && duration) controller.seek(Math.max(0, Math.min(1, fraction)) * duration / 1000);
+  }
+  bar.addEventListener("click", function (e) {
+    var r = bar.getBoundingClientRect();
+    seekTo((e.clientX - r.left) / r.width);
+  });
+  bar.addEventListener("keydown", function (e) {
+    if (!last || !duration) return;
+    var step = e.key === "ArrowRight" ? 5000 : e.key === "ArrowLeft" ? -5000 : 0;
+    if (step) { e.preventDefault(); seekTo((last.position + step) / duration); }
+  });
 
   document.getElementById("music-yes").addEventListener("click", function () {
     wantsMusic = true;
