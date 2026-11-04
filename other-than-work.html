@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<title>Other than work — Mohaimin Al Barat</title>
+<meta name="description" content="Music, travel, and the rest of life outside research.">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌘</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <nav class="wrap" aria-label="Main">
+    <a class="logo" href="index.html">barat<span>_</span></a>
+    <ul>
+      <li><a href="index.html#about">about</a></li>
+      <li><a href="index.html#research">research</a></li>
+      <li><a href="index.html#publications">publications</a></li>
+      <li><a href="index.html#experience">experience</a></li>
+      <li><a href="other-than-work.html" aria-current="page">other than work</a></li>
+      <li><a href="index.html#contact">contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <div class="page-head">
+      <a class="back-link" href="index.html">← back to the main page</a>
+      <!-- [EDIT A] The heading and intro line for this page -->
+      <h1>Other than work</h1>
+      <p>The part of me that isn't in a paper: the music I keep coming back to, and the places I've been lucky enough to see.</p>
+    </div>
+
+    <!-- ============ MUSIC PROMPT ============ -->
+    <!-- [EDIT B] The wording of the question and the buttons -->
+    <div class="music-prompt" id="music-prompt">
+      <p>Want something playing while you look around?</p>
+      <div class="actions">
+        <button class="btn primary" id="music-yes" type="button">Yes, play music</button>
+        <button class="btn" id="music-no" type="button">No thanks</button>
+      </div>
+      <p class="note">Opens a Spotify player on this page. You can pause or close it at any time.</p>
+    </div>
+
+    <!-- The player appears here once you choose "Yes". -->
+    <div id="player" hidden>
+      <div id="spotify-embed"></div>
+      <p class="player-note">Spotify plays full tracks if you're logged in with Premium, and short previews otherwise.</p>
+    </div>
+
+    <!-- ============ MUSIC ============ -->
+    <section aria-labelledby="music-h">
+      <h2 id="music-h">music</h2>
+      <div class="life-block">
+        <!-- [EDIT C] Write about your music here. One <p>...</p> per paragraph. -->
+        <p>Write a few sentences about the music you love — the artists you return to, whether you play an instrument, the album that got you through a hard semester.</p>
+        <p>You can add a second paragraph here, or delete this line.</p>
+      </div>
+    </section>
+
+    <!-- ============ TRAVEL ============ -->
+    <section aria-labelledby="travel-h">
+      <h2 id="travel-h">travel</h2>
+      <div class="life-block">
+        <!-- [EDIT D] Write about your travels here. -->
+        <p>A few sentences about where you've been and what you look for when you go somewhere new.</p>
+
+        <!-- [EDIT E] Photos. Make a folder called photos/ next to this file, put your
+             images in it, then replace each <div class="placeholder">...</div> line
+             with an image line, for example:
+             <img src="photos/istanbul.jpg" alt="The Bosphorus at sunset">
+             Copy a whole <figure>...</figure> block to add more photos. -->
+        <div class="gallery">
+          <figure>
+            <div class="placeholder">photos/one.jpg</div>
+            <figcaption>Where this was taken</figcaption>
+          </figure>
+          <figure>
+            <div class="placeholder">photos/two.jpg</div>
+            <figcaption>Where this was taken</figcaption>
+          </figure>
+          <figure>
+            <div class="placeholder">photos/three.jpg</div>
+            <figcaption>Where this was taken</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">© <span id="year">2026</span> Mohaimin Al Barat</div>
+</footer>
+
+<!-- Spotify's player script -->
+<script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  /* ============================================================
+     [EDIT F] YOUR PLAYLIST
+     Open your playlist in Spotify → Share → Copy link. You'll get
+     something like https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M
+     Paste only the part after /playlist/ between the quotes below.
+     To use a single song instead of a playlist, paste the id from a
+     track link and change TYPE to "track".
+     ============================================================ */
+  var PLAYLIST_ID = "";
+  var TYPE = "playlist";   // "playlist" or "track"
+
+  var prompt   = document.getElementById("music-prompt");
+  var player   = document.getElementById("player");
+  var embedBox = document.getElementById("spotify-embed");
+  var controller = null;
+  var wantsMusic = false;
+
+  // Spotify calls this once its script has loaded.
+  window.onSpotifyIframeApiReady = function (IFrameAPI) {
+    if (!PLAYLIST_ID) return;
+    IFrameAPI.createController(
+      embedBox,
+      { uri: "spotify:" + TYPE + ":" + PLAYLIST_ID, width: "100%", height: 152 },
+      function (ctrl) {
+        controller = ctrl;
+        if (wantsMusic) ctrl.play();   // they already said yes while it was loading
+      }
+    );
+  };
+
+  document.getElementById("music-yes").addEventListener("click", function () {
+    wantsMusic = true;
+    prompt.hidden = true;
+    player.hidden = false;
+    if (controller) controller.play();
+  });
+
+  document.getElementById("music-no").addEventListener("click", function () {
+    prompt.hidden = true;
+  });
+</script>
+</body>
+</html>

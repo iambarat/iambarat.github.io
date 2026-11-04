@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<!-- [EDIT 1] Page title (shows in the browser tab and in Google results) -->
+<title>Mohaimin Al Barat — Privacy &amp; Security Researcher</title>
+<meta name="description" content="Mohaimin Al Barat is a Ph.D. student in Computer Science at Virginia Tech working on zero-knowledge proofs, blockchain security, and ML security for autonomous vehicles.">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌘</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <nav class="wrap" aria-label="Main">
+    <a class="logo" href="#top">barat<span>_</span></a>
+    <ul>
+      <li><a href="#about">about</a></li>
+      <li><a href="#research">research</a></li>
+      <li><a href="#publications">publications</a></li>
+      <li><a href="#experience">experience</a></li>
+      <li><a href="other-than-work.html">other than work</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="top">
+  <div class="wrap">
+
+    <!-- ============ HERO ============ -->
+    <div class="hero">
+      <p class="prompt"><b>~</b> $ whoami</p>
+      <!-- [EDIT 2] Your name -->
+      <h1>Mohaimin Al Barat<span class="cursor" aria-hidden="true"></span></h1>
+      <!-- [EDIT 3] The one-sentence summary under your name -->
+      <p class="lede">Ph.D. student in <strong>Computer Science at Virginia Tech</strong>. I build privacy-enhancing systems with zero-knowledge proofs, and study the security of blockchains, wireless spectrum, and autonomous vehicles.</p>
+      <div class="actions">
+        <a class="btn primary" href="#research">See my research</a>
+        <a class="btn" href="resume.pdf">Resume (PDF)</a>
+        <a class="btn" href="#contact">Get in touch</a>
+      </div>
+    </div>
+
+    <!-- ============ ABOUT ============ -->
+    <section id="about" aria-labelledby="about-h">
+      <h2 id="about-h">about</h2>
+      <div class="about">
+        <div>
+          <!-- Bio -->
+          <p>I'm a Ph.D. student in Computer Science at Virginia Tech, where I've been a graduate research assistant since 2022 and expect to graduate in the summer of 2027. My work sits at the point where cryptography meets real deployed systems: I design protocols that let people pay, use products, and prove things about themselves without giving up their privacy.</p>
+          <p>Lately that has meant a pay-as-you-go payment system for dynamic spectrum sharing, anonymous but still compliant fiat-to-crypto exchange, Sybil-resistant pseudonyms for connected vehicles, and attacks and defenses for the sensor fusion pipelines that self-driving cars depend on.</p>
+          <p>My recent works are focused on developing privacy-preserving charging mechanisms for EV, and agentic AI based approaches for spectrum allocation.</p>
+
+          <!-- [EDIT 5] Skills. Add or remove <li>...</li> items. -->
+          <div class="skill-group">
+            <h3>Languages</h3>
+            <ul class="skills">
+              <li>C++</li><li>Java</li><li>Python</li><li>Rust</li><li>Solidity</li>
+            </ul>
+            <h3>Tools</h3>
+            <ul class="skills">
+              <li>Git</li><li>Docker</li><li>Linux</li><li>Foundry</li><li>Wireshark</li><li>BBS+ signatures</li>
+            </ul>
+            <h3>Research areas</h3>
+            <ul class="skills">
+              <li>Zero-knowledge proofs</li><li>Privacy-enhancing technologies</li><li>Blockchain security &amp; scalability</li><li>ML security for autonomous vehicles</li><li>Agentic AI for spectrum allocation</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- [EDIT 6] Your photo. Put photo.jpg next to this file, then replace
+             the whole <div class="avatar">...</div> line below with:
+             <div class="avatar"><img src="photo.jpg" alt="Mohaimin Al Barat"></div> -->
+        <div class="avatar" aria-hidden="true">MB</div>
+      </div>
+    </section>
+
+    <!-- ============ RESEARCH ============ -->
+    <!-- [EDIT 7] Each <li class="project"> is one entry. Copy a whole block to add one,
+         delete a whole block to remove one. Put real URLs in the href="" of the links,
+         or delete the <div class="links"> line entirely if there's nothing to link to. -->
+    <section id="research" aria-labelledby="research-h">
+      <h2 id="research-h">research</h2>
+      <ul class="projects">
+
+        <li class="project">
+          <h3>SpexPay</h3>
+          <p>A privacy-preserving pay-as-you-go payment system for dynamic spectrum sharing, letting users pay for spectrum access without revealing their usage patterns to the spectrum manager.</p>
+          <div class="tags">Zero-knowledge proofs · Spectrum sharing · ESORICS 2026</div>
+          <div class="links">
+            <a href="">Paper</a>
+            <a href="">Code</a>
+          </div>
+        </li>
+
+        <li class="project">
+          <h3>Anonymous yet compliant exchange</h3>
+          <p>An anonymous payment design for fiat-to-cryptocurrency exchange that still satisfies regulatory compliance requirements, so privacy and accountability don't have to be traded against each other.</p>
+          <div class="tags">Anonymous payments · Compliance · IEEE INFOCOM 2026</div>
+          <div class="links">
+            <a href="">Paper</a>
+          </div>
+        </li>
+
+        <li class="project">
+          <h3>Temporal misalignment in sensor fusion</h3>
+          <p>Attacks that desynchronize the multimodal sensor streams autonomous vehicles fuse for perception, together with a detection method that catches the misalignment before it reaches the planner.</p>
+          <div class="tags">ML security · Autonomous driving · IEEE SaTML 2026 · ICLR 2026</div>
+          <div class="links">
+            <a href="">Paper</a>
+            <a href="">Code</a>
+          </div>
+        </li>
+
+        <li class="project">
+          <h3>V-PASS</h3>
+          <p>Sybil-resistant pseudonym self-provisioning for V2X, so vehicles can rotate identities for privacy without one vehicle being able to masquerade as many.</p>
+          <div class="tags">V2X · Pseudonymity · ACM WiSec 2026</div>
+          <div class="links">
+            <a href="">Paper</a>
+          </div>
+        </li>
+
+        <li class="project">
+          <h3>SoK: Public blockchain sharding</h3>
+          <p>A systematization of knowledge that maps how public blockchains shard, what security each approach assumes, and where the open problems in scalability remain.</p>
+          <div class="tags">Blockchain · Scalability · IEEE ICBC 2024</div>
+          <div class="links">
+            <a href="">Paper</a>
+          </div>
+        </li>
+
+        <li class="project">
+          <h3>Privacy-preserving EV charging</h3>
+          <p>An EV charging protocol with anonymous payment, so drivers can charge without building a location history tied to their identity. Under submission.</p>
+          <div class="tags">Anonymous payments · Electric vehicles</div>
+        </li>
+
+      </ul>
+    </section>
+
+    <!-- ============ PUBLICATIONS ============ -->
+    <!-- [EDIT 8] Each <li> is one paper. Your name is wrapped in <em> so it stands out. -->
+    <section id="publications" aria-labelledby="publications-h">
+      <h2 id="publications-h">publications</h2>
+      <ul class="pubs">
+        <li>
+          <span class="title"><em>M. M. Al Barat</em>, H. Yu, S. Li, Y. Xiao, Y. Shi, E. W. Burger, Y. T. Hou, W. Lou. SpexPay: A Privacy-Preserving Pay-As-You-Go System for Dynamic Spectrum Sharing.</span>
+          <span class="venue">ESORICS 2026</span>
+        </li>
+        <li>
+          <span class="title"><em>M. M. Al Barat</em>, C. Zhang, H. Yu, K. Zeng, Y. T. Hou, W. Lou. Enabling Emergency Communication via Semantic Radar-Centric ISAC.</span>
+          <span class="venue">MILCOM 2026</span>
+        </li>
+        <li>
+          <span class="title">M. H. Shahriar, <em>M. M. Al Barat</em>, H. Sundar, N. Zhang, N. Ramakrishnan, T. Hou, W. Lou. Detecting Temporal Misalignment Attacks in Multimodal Fusion for Autonomous Driving.</span>
+          <span class="venue">ICLR 2026</span>
+        </li>
+        <li>
+          <span class="title">M. H. Shahriar, <em>M. M. Al Barat</em>, H. Sundar, N. Zhang, N. Ramakrishnan, Y. T. Hou, W. Lou. Temporal Misalignment Attacks against Multimodal Perception in Autonomous Driving.</span>
+          <span class="venue">IEEE SaTML 2026</span>
+        </li>
+        <li>
+          <span class="title">H. Yu, <em>M. M. Al Barat</em>, S. Li, M. H. Shahriar, Y. Xiao, P. Papadimitratos, Y. T. Hou, W. Lou. V-PASS: Sybil-Resistant Pseudonym Self-Provisioning for V2X.</span>
+          <span class="venue">ACM WiSec 2026</span>
+        </li>
+        <li>
+          <span class="title">H. Yu, <em>M. M. Al Barat</em>, Y. Xiao, Y. T. Hou, W. Lou. Closing the Visibility Gap: A Monitoring Framework for Verifiable Open RAN Operations.</span>
+          <span class="venue">IEEE CNS 2025</span>
+        </li>
+        <li>
+          <span class="title"><em>M. M. Al Barat</em>, S. Li, C. Du, Y. T. Hou, W. Lou. SoK: Public Blockchain Sharding.</span>
+          <span class="venue">IEEE ICBC 2024</span>
+        </li>
+      </ul>
+      <!-- [EDIT 9] Paste your Google Scholar profile URL between the quotes below. -->
+      <p class="after-timeline"><a class="btn" href="https://scholar.google.com/citations?user=E-NmL2gAAAAJ&hl=en&inst=13410158990364976897">Full list on Google Scholar</a></p>
+    </section>
+
+    <!-- ============ EXPERIENCE + EDUCATION ============ -->
+    <!-- [EDIT 10] Two separate lists now: work first, education second.
+         Each <li class="job"> is one entry; newest at the top. -->
+    <section id="experience" aria-labelledby="experience-h">
+      <h2 id="experience-h">experience</h2>
+
+      <h3 class="subhead">Work</h3>
+      <ol class="timeline">
+        <li class="job">
+          <div class="when">Aug 2022 – present</div>
+          <h3>Graduate Research Assistant <span>at Virginia Tech</span></h3>
+          <p>Designing privacy-enhancing technologies built on zero-knowledge proofs, researching blockchain security and scalability, developing ML-based security for automotive systems, and building agentic AI for wireless spectrum allocation.</p>
+        </li>
+        <li class="job">
+          <div class="when">2020 – 2022</div>
+          <h3>Application &amp; Software Engineer <span>at Huawei Bangladesh</span></h3>
+          <p>Supported the operation and maintenance of application systems for bKash Limited, the largest fintech company in Bangladesh.</p>
+        </li>
+      </ol>
+
+      <h3 class="subhead">Education</h3>
+      <ol class="timeline">
+        <li class="job">
+          <div class="when">Aug 2022 – expected Summer 2027</div>
+          <h3>Ph.D. in Computer Science <span>at Virginia Tech</span></h3>
+          <p>Privacy-enhancing technologies, applied cryptography, and systems security.</p>
+        </li>
+        <li class="job">
+          <div class="when">Graduated 2020</div>
+          <h3>B.Sc. in Computer Science and Engineering <span>at KUET, Bangladesh</span></h3>
+          <p>Khulna University of Engineering &amp; Technology.</p>
+        </li>
+      </ol>
+
+      <!-- [EDIT 11] Put your resume.pdf next to this file for this button to work. -->
+      <p class="after-timeline"><a class="btn" href="resume.pdf">Download resume (PDF)</a></p>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section id="contact" class="contact" aria-labelledby="contact-h">
+      <h2 id="contact-h">contact</h2>
+      <p>I'm always glad to talk about privacy-preserving systems, collaborations, or research positions. Email is the best way to reach me.</p>
+
+      <!-- [EDIT 12] Your email appears twice on this line: once after "mailto:" and once as the visible text. -->
+      <a class="email" href="mailto:barat@vt.edu">barat@vt.edu</a>
+
+      <!-- [EDIT 13] Paste each profile URL between the quotes in href="". -->
+      <ul class="socials">
+        <li><a href="https://github.com/iambarat">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/iambarat/">LinkedIn</a></li>
+        <li><a href="https://scholar.google.com/citations?user=E-NmL2gAAAAJ&hl=en&inst=13410158990364976897">Google Scholar</a></li>
+      </ul>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">© <span id="year">2026</span> Mohaimin Al Barat</div>
+</footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
