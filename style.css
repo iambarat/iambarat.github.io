@@ -152,16 +152,6 @@ footer { border-top: 1px solid var(--line); padding: 2rem 0; font: 0.8rem var(--
 .page-head p { color: var(--muted); font-size: 1.15rem; max-width: 40rem; margin: 0; }
 .back-link { font: 0.875rem var(--mono); color: var(--muted); display: inline-block; margin-bottom: 1.5rem; }
 
-/* Music prompt */
-.music-prompt {
-  border: 1px solid var(--line); background: var(--surface);
-  border-radius: 10px; padding: 1.5rem; max-width: 34rem; margin: 0 0 2.5rem;
-}
-.music-prompt p { margin: 0 0 1.25rem; color: var(--text); }
-.music-prompt .note { font-size: 0.85rem; color: var(--muted); margin-top: 1rem; margin-bottom: 0; }
-.music-prompt .actions { gap: 0.6rem; }
-.music-prompt[hidden] { display: none; }
-
 /* Floating player */
 .float-player {
   position: fixed; right: 16px; bottom: 16px; z-index: 20;
@@ -191,6 +181,26 @@ footer { border-top: 1px solid var(--line); padding: 2rem 0; font: 0.8rem var(--
 .fp-icon svg { width: 1.05rem; height: 1.05rem; fill: currentColor; }
 
 .fp-body { padding: 1rem 1.1rem 1.1rem; }
+
+/* The question shown before the player starts */
+.fp-prompt { padding: 1rem 1.1rem 1.1rem; }
+.fp-prompt[hidden], #fp-player[hidden], .fp-icon[hidden] { display: none; }
+.fp-prompt p { margin: 0 0 1rem; font-size: 0.95rem; }
+.fp-prompt .actions { gap: 0.5rem; }
+.fp-prompt .btn { padding: 0.6rem 0.9rem; font-size: 0.85rem; }
+.fp-prompt .note { font-size: 0.78rem; color: var(--muted); margin: 0.9rem 0 0; }
+.float-player:not(.started) #np-count { display: none; }
+
+/* Small round button that reopens the window after it's closed */
+.fp-launch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 20;
+  width: 3rem; height: 3rem; display: grid; place-items: center;
+  border: 0; border-radius: 50%; background: var(--accent); color: var(--bg); cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+.fp-launch[hidden] { display: none; }
+.fp-launch:hover { filter: brightness(1.1); }
+.fp-launch svg { width: 1.3rem; height: 1.3rem; fill: currentColor; }
 .np-label { font: 0.75rem var(--mono); color: var(--muted); margin: 0 0 0.75rem; text-transform: lowercase; }
 .np-title { font: 600 1.05rem/1.3 var(--mono); margin: 0; overflow-wrap: anywhere; }
 .np-artist { color: var(--muted); font-size: 0.9rem; margin: 0.2rem 0 0.9rem; }
